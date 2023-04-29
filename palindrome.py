@@ -1,10 +1,11 @@
-def isPalindrome(x):
-    List=list(num)
-    if List[0]=='-' or len(List)<3:
+def isPalindrome(num) -> bool:
+    List=list(str(num))
+    if List[0]=='-':
         return False
-    if List==List[::-1]:
-        return True
+    ln=len(List)
+    if len(List) % 2==0:
+        return List[:ln//2]==List[ln//2:][::-1]
     else:
-        return False
-num = input()
-print(isPalindrome(num))
+        return List[:ln//2]==List[ln//2+1:][::-1]
+x=input()
+print(isPalindrome(x))

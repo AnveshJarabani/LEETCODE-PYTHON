@@ -5,17 +5,34 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res=[]
+        stack=[]
+        cur=root
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur=cur.left
+            cur=stack.pop()
+            res.append(cur.val)
+            cur=cur.right
+        return res
 
-def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-    res=[]
-    def inord(root):
-        if root is None:
-            return
-        inord(root.left)
-        res.append(root.val)
-        inord(root.right)
-    inord(root)
-    return res
+
+class solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res=[]
+        stack=[]
+        def inord(root):
+            if root is None:
+                return
+            stack.append(root.val)
+            inord(root.left)
+            res.append(stack.pop(-1))
+            inord(root.right)
+        inord(root)
+        return res
 in_list=ast.literal_eval(input())
 root=TreeNode(val=in_list[0])
 cur_node=root
