@@ -1,23 +1,19 @@
-import ast 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-def buildtree(lst):
-    if len(lst)==0:
-        return None
-    head=lst[0]
-    
-
-
-
-def issametree(p,q):
-
-
-
-
-
-p_lst=ast.literal_eval(input())
-q_lst=ast.literal_eval(input())
-print(issametree(p,q))
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        # if not p and not q:
+        #     return True
+        # elif not p or not q or p.val!=q.val:
+        #     return False
+        # return (self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right))
+        return self.pre(p)==self.pre(q)
+    def pre(self,root):
+        if not root:
+            return [None]
+        else:
+            return [root.val]+self.pre(root.left)+self.pre(root.right)
+        
