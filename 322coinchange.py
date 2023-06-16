@@ -1,23 +1,11 @@
 import ast
 input=ast.literal_eval(input())
 def coinchange(coins,amount):
-    if amount==0:
-        return 0
-    coins.sort(reverse=True)
-    count=0
-    for n,coin in enumerate(coins):
-        if n==len(coins)-1:
-            if coin<=amount:
-                count+=amount//coin
-                amount %= coin
-                if amount==0:
-                    return count
-                else:
-                    return -1
-            else:
-                return -1
-        count+=amount//coin
-        amount%=coin
-        if amount==0:
-            return count
+    dp=[amount+1]*(amount+1)
+    dp[0]=0
+    for amt in range(1,amount+1):
+        for coin in coins:
+            if amt-coin>=0:
+                dp[amt]=min(dp[amt],1+dp[amt-coin])
+    return dp[amount] if dp[amount]!=amount+1 else -1
 print(coinchange(input,6249))
