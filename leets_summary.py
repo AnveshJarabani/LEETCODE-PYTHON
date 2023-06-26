@@ -68,7 +68,7 @@ class Solution:
 
 
 #-----------------------------------------------
-# 111
+# 111.mindepth
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
         if not root:
@@ -204,7 +204,7 @@ class Solution:
 
 
 #-----------------------------------------------
-# 121
+# 121.besttimeforstock
 def maxprofit(lst):
     l,r,maxP=0,1,0
     while r<len(lst):
@@ -267,7 +267,7 @@ print(single(ast.literal_eval(input())))
 
 
 #-----------------------------------------------
-# 139
+# 139.word_break
 def wordbreak(s, dct):
     dp = [False] * (len(s) + 1)
     dp[len(s)] = True
@@ -375,7 +375,7 @@ class Solution:
 
 
 #-----------------------------------------------
-# 168
+# 168.excelcolumn
 def convert(n):
     lst=[chr(i) for i in range(ord('A'),ord('Z')+1)]
     res=''
@@ -767,7 +767,7 @@ def repeatedsubstr(s):
 
 
 #-----------------------------------------------
-# 463
+# 463.island_perimiter
 def island(grid):
     visit=set()
     
@@ -937,6 +937,29 @@ def longpal(s):
     # return res
 
 print(longpal(input()))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 617.merge_binaries
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+def mergetrees(r1, r2):
+    if r1 is None and r2 is None:
+        return None
+    val1 = r1.val if r1 else 0
+    val2 = r2.val if r2 else 0
+    r3 = TreeNode(val1 + val2)
+    r3.left = mergetrees(r1.left if r1 else None, r2.left if r2 else None)
+    r3.right = mergetrees(r1.right if r1 else None, r2.right if r2 else None)
+    return r3
+#-----------------------------------------------
 
 
 
@@ -1485,7 +1508,7 @@ my_list.display()
 
 
 #-----------------------------------------------
-# longestcommonprefix
+# LONGESTCOMMONPREFIX
 def LONGESTCOMMONPREFIX(x) -> str:
     
 
@@ -1675,7 +1698,7 @@ print(isvalid(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
-# palindrome
+# PALINDROME
 def isPalindrome(num) -> bool:
     List=list(str(num))
     if List[0]=='-':
@@ -1836,7 +1859,7 @@ with open("leets_summary.py", "w") as f2:
         with open(i, "r") as f:
             content = f.read()
             f2.write("#-----------------------------------------------\n")
-            f2.write(f"# {os.path.basename(i).split('.')[0]}\n")
+            f2.write(f"# {os.path.basename(i).rsplit('.',1)[0]}\n")
             f2.write(content)
             f2.write("#-----------------------------------------------\n")
             f2.write("\n\n\n")
