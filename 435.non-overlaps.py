@@ -1,10 +1,13 @@
 def overlaps(intervals):
-    count=0
+    count = 0
     intervals.sort()
-    for indx in range(len(intervals)):
-        if intervals[indx][0]<=intervals[indx+1][0] and \
-        intervals[indx][1]<=intervals[indx+1][1]:
-            count+=1
+    previous_end = intervals[0][0]
+    for i, j in intervals[1:]:
+        if previous_end <= i:
+            previous_end = j
+        else:
+            previous_end = min(j, previous_end)
+            count += 1
     return count
 
 
