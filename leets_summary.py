@@ -628,6 +628,31 @@ print(coinchange(input,6249))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# 39_combinationsum
+def combinationsum(lst, target):
+    result = []
+
+    def dfs(i, cur, sum):
+        if sum == target:
+            result.append(cur.copy())
+            return
+        if sum > target or i >= len(lst):
+            return
+        cur.append(lst[i])
+        dfs(i, cur, sum + lst[i])
+        cur.pop()
+        dfs(i + 1, cur, sum)
+
+    dfs(0, [], 0)
+    return result
+
+
+print(combinationsum([2, 3, 6, 7], 7))
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 3SUM
 def threeSum(nums):
     # if nums.count(0)==len(nums) and len(nums)>2:
@@ -1707,7 +1732,7 @@ my_list.display()
 
 
 #-----------------------------------------------
-# LONGESTCOMMONPREFIX
+# longestcommonprefix
 def LONGESTCOMMONPREFIX(x) -> str:
     
 
@@ -1897,7 +1922,7 @@ print(isvalid(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
-# PALINDROME
+# palindrome
 def isPalindrome(num) -> bool:
     List=list(str(num))
     if List[0]=='-':
