@@ -744,6 +744,30 @@ print(Solution().lls(input()))
 
 
 #-----------------------------------------------
+# 40_combinationsum2
+def combinationsum2(lst, target):
+    result = []
+    lst.sort()
+
+    def dfs(i, cur, sum):
+        if sum == target:
+            result.append(cur)
+            return
+        if sum > target:
+            return
+        for i in range(i, len(lst)):
+            dfs(i, cur.append(lst[i]), sum + lst[i])
+
+    dfs(0, [], 0)
+    return result
+
+
+print(combinationsum2([10, 1, 2, 7, 6, 1, 5], 8))
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 416partitionequalsubset
 def canPartition(nums):
     if sum(nums) % 2!=0:
@@ -1401,6 +1425,43 @@ def needle_index(haystack,needle):
 result=needle_index(haystack,needle)
 print(result)
     
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# gcd_string
+from math import gcd
+
+
+def gcd_strings(str1, str2):
+    if str1 + str2 == str2 + str1:
+        str = str1 + str2
+        return str[: gcd(len(str1), len(str2))]
+    return ""
+
+
+str1 = "xyz"
+str2 = "xyzxyz"
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# gcenter_string
+def str_output(in_str):
+    lst=[i for i in in_str]
+    uniques=list(set(lst))
+    uniques.sort()
+    result_list=[[i,lst.count(i)] for i in uniques] #[[a,3],[b,3],[c,2]]
+    result=""
+    for i in result_list:
+        result+=str(i[0])+str(i[1])
+    return result
+
+in_str="aabbbacc"
+print(str_output(in_str))
+
 #-----------------------------------------------
 
 
@@ -2117,6 +2178,23 @@ print(int(result,2))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# two_sum_leetcode1
+# use hashmap when the problem statement has 'unique solution' available mentioned
+
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        hash_map = {}
+        for indx, val in enumerate(nums):
+            if target - val in hash_map:
+                return [hash_map[target - val], indx]
+            else:
+                hash_map[val] = indx
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # udem
 import pyautogui as sim
 import time
@@ -2171,6 +2249,27 @@ class Solution:
         else:
             return False
 print(Solution().isUgly(n=n))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# validip
+def validip(input_string):
+    lst=input_string.split('.')
+    if len(lst)!=4:
+        return False
+    lst = [int(i) if i.isdigit() else i for i in lst]
+    if not all([isinstance(i,int) for i in lst]):
+        return False
+    if not all([int(i)>=0 and int(i)<=255 for i in lst]):
+        return False
+    return True
+
+print(validip('255.23.12.23'))
+print(validip('255.23.12.278'))
+print(validip('255.23.12.-2'))
+print(validip('255.23.12.2.12'))
+print(validip('255.23.12. a'))#-----------------------------------------------
 
 
 
