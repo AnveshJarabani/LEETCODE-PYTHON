@@ -1663,6 +1663,27 @@ class Solution:
 
 
 #-----------------------------------------------
+# is_subsequence
+def isSubsequence(self, s: str, t: str) -> bool:
+    # s_list=list(s)
+    # t_list=list(t)
+    # for i in s_list:
+    #     if t_list[0]==i:
+    #         t_list.pop(0)
+    # return not t_list
+    for c in s:
+        i = t.find(c)
+        if i == -1:
+            return False
+        else:
+            t = t[i + 1 :]
+    return True
+print(isSubsequence())
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # largestnumber
 import ast
 from functools import cmp_to_key
@@ -1853,6 +1874,23 @@ def LONGESTCOMMONPREFIX(x) -> str:
     return x
 x=list(map(str,input().split(',')))
 print(LONGESTCOMMONPREFIX(x))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# max_avg_subarray1
+class Solution:
+    def findMaxAverage(self, nums, k: int) -> float:
+        result = sum(nums[:k])
+        max_sum = result
+        for i in range(k, len(nums)):
+            result += nums[i] - nums[i - k]
+            max_sum = max(max_sum, result)
+        return max_sum / k
+
+
+print(Solution().findMaxAverage([1, 12, -5, -6, 50, 3], 4))
+#-----------------------------------------------
 
 
 
