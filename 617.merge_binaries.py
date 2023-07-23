@@ -15,3 +15,5 @@ def mergetrees(r1, r2):
     r3.left = mergetrees(r1.left if r1 else None, r2.left if r2 else None)
     r3.right = mergetrees(r1.right if r1 else None, r2.right if r2 else None)
     return r3
+
+

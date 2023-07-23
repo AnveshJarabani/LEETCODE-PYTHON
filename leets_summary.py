@@ -1170,6 +1170,8 @@ def mergetrees(r1, r2):
     r3.left = mergetrees(r1.left if r1 else None, r2.left if r2 else None)
     r3.right = mergetrees(r1.right if r1 else None, r2.right if r2 else None)
     return r3
+
+
 #-----------------------------------------------
 
 
@@ -2271,6 +2273,35 @@ print(romantoint(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# sameleaves_bi_tree
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def leafSimilar(self, root1, root2) -> bool:
+        return_list1 = []
+        return_list2 = []
+
+        def leaf(root, arr):
+            if root:
+                leaf(root.left, arr)
+                if root.left is None and root.right is None:
+                    arr.append(root.val)
+                leaf(root.right, arr)
+
+        leaf(root1, return_list1)
+        leaf(root2, return_list2)
+        return return_list1 == return_list2
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # summary_builder
 import os
 from glob import glob
@@ -2387,6 +2418,19 @@ class Solution:
         else:
             return False
 print(Solution().isUgly(n=n))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# unique_occurs
+class Solution:
+    def uniqueOccurrences(self, arr) -> bool:
+        hash_map={i:0 for i in arr}
+        for i in arr:
+            hash_map[i]+=1
+        occur_list=[val for _,val in hash_map.items()]
+        return list(set(occur_list))==occur_list
+print(Solution().uniqueOccurrences([1,2,2,1,1,3]))#-----------------------------------------------
 
 
 
