@@ -69,15 +69,17 @@ class ATM:
 
 if __name__ == "__main__":
     # Sample usage:
-    input_password = input()
-    init_balance = int(input())
+    input_password = 'hacker' # input()
+    init_balance = 10 # int(input())
 
     # Set the initial state to "unauthorized"
     atm = ATM(State("unauthorized"), init_balance, input_password, transition_table)
 
-    q = int(input())
-    for _ in range(q):
-        action_input = input().strip().split()
+    inp = ["login hacker","depoist 10"]  #int(input())
+    q=len(inp)
+    for i in inp:
+        # action_input = input().strip().split()
+        action_input=i.split(' ')
         action_name = action_input[0]
         action_param = action_input[1] if len(action_input) > 1 else None
 
