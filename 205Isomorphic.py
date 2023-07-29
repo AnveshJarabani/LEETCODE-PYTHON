@@ -15,7 +15,7 @@ class Solution:
         return True
 
 
-# ANOTHER SOLUTION --
+# ANOTHER SOLUTION -- 
 
 
 def isIsomorphic(self, s: str, t: str) -> bool:

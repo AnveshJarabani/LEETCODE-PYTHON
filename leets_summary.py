@@ -458,6 +458,83 @@ print(title(input()))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# 202happynumber
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        hset = set()
+        while n != 1:
+            if n in hset:
+                return False
+            else:
+                hset.add(n)
+                n = sum(int(i) ** 2 for i in str(n))
+        return True
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 203linked_list
+from typing import Optional
+
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        if not head:
+            return None
+        dum_head = ListNode(-1)
+        dum_head.next = head
+        cur_node = dum_head
+        while cur_node.next:
+            if cur_node.next.val == val:
+                cur_node.next = cur_node.next.next
+            else:
+                cur_node = cur_node.next
+        return dum_head.next
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 205Isomorphic
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        hash_dict_a = {}
+        hash_dict_b = {}
+        for i, j in zip(s, t):
+            if i not in hash_dict_a:
+                hash_dict_a[i] = j
+            elif hash_dict_a[i] != j:
+                return False
+            if j not in hash_dict_b:
+                hash_dict_b[j] = i
+            elif hash_dict_b[j] != i:
+                return False
+
+        return True
+
+
+# ANOTHER SOLUTION -- 
+
+
+def isIsomorphic(self, s: str, t: str) -> bool:
+    zipped_set = set(zip(s, t))
+    return len(zipped_set) == len(set(s)) == len(set(t))
+
+
+print(Solution().isIsomorphic("badc", "baba"))
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 206.reverese_linkedlist
 def reverseList(head):
     if not head:
@@ -469,6 +546,27 @@ def reverseList(head):
     head.next=None
     return newhead
     #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 219sliding_window
+from typing import List
+
+
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        window = set()
+        L = 0
+        for R in range(len(nums)):
+            if R - L > k:
+                window.remove(nums[L])
+                L += 1
+            if nums[R] in window:
+                return True
+            window.add(nums[R])
+        return False
+#-----------------------------------------------
 
 
 
@@ -1217,10 +1315,80 @@ print(mySqrt(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# api_calls_decorator
+from time import time
+def rate_limit(period,max_call_count):
+    def decorator(func):
+        call_count=0
+        last_call=time()
+        def wrapper(*args, **kwargs):
+            nonlocal call_count,last_call
+            elapsed_time=time()-last_call
+            if elapsed_time>period:
+                call_count=0
+                last_call=time.time()
+            if call_count>=max_call_count:
+                raise Exception("Rate Limit Exceeded. Please try again later")
+            call_count+=1
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
+@rate_limit(period=10,max_call_count=6)
+def api_call():
+    print('API EXCEUTED SUCCESSFULLY')
+
+
+for i in range(10):
+    try:
+        api_call()
+    except Exception as e:
+        print(f"EXCEPTION OCCURED: {e}")#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # calculate
 import pandas
 import numpy as np
 array=input()#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# classes
+class Robot:
+    def __init__(self,name: str,color: str,weight:int):
+        self.name=name
+        self.color=color
+        self.weight=weight
+    def introduce(self):
+        print(f"my namee is {self.name}")
+r1=Robot('Tom','red',30)
+r2=Robot('Jerry','blue',40)
+r1.introduce()
+r2.introduce()
+
+# ADDING RELATIONSHIPS TO VARIOUS OBJECTS AND SETTING STATES
+
+class Person:
+    def __init__(self,name:str,personality:str,isSitting:bool,robotowned:Robot):
+        self.name=name
+        self.personality=personality
+        self.isSitting=isSitting
+        self.robotowned=robotowned
+    def sit_down(self):
+        self.isSitting=True
+        print(f"{self.name} is_sitting {self.isSitting}")
+    def stand_up(self):
+        self.isSitting=False
+        print(f"{self.name} is_sitting {self.isSitting}")
+p1=Person('Alice','aggressive',False,r1)
+p2=Person('Becky','talkative',True,r2)
+p1.sit_down()
+p2.sit_down()
+p2.stand_up()#-----------------------------------------------
 
 
 
@@ -1404,6 +1572,45 @@ print(Solution().containsDuplicate(ast.literal_eval(input())))
 
 
 #-----------------------------------------------
+# decorators
+def multiply_decorator(func):
+    def wrapper(*args,**kwargs):
+        print(f"function: {func.__name__}")
+        print(f"args: {args}")
+        print(f"kwargs: {kwargs}")
+        result = func(*args,**kwargs)
+        print(f"{func.__name__} with result: {result}")
+        return result
+    return wrapper
+
+
+@multiply_decorator
+def multiply(x,y,z=None,k=None):
+    return x*y
+x,y=5,5
+result = multiply(x,y,z=5,k=10)
+print(f"return: {result}")#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# decorator_class
+def class_type(func):
+    def wrapper(*args, **kwargs):
+        result=func(*args, **kwargs)
+        print(result)
+        print(f"class: {type(result)}")
+        return result
+    return wrapper
+@class_type
+def string_concat(x,y):
+    return x+" "+ y
+x,y='abc','xyz'
+string_concat(x,y)#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # deleteduplicatenodes
 import ast
 in_list=ast.literal_eval(input())
@@ -1517,6 +1724,105 @@ def str_output(in_str):
 in_str="aabbbacc"
 print(str_output(in_str))
 
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# hackerrank_atm
+from typing import Optional,Tuple,Dict
+Action = str
+
+class State:
+    def __init__(self, name: str):
+        self.name = name
+
+    def __str__(self):
+        return self.name
+
+def login_checker(action_param: str, atm_password: str, atm_current_balance: int) -> Tuple[bool, int, Optional[int]]:
+    if action_param == atm_password:
+        return True, atm_current_balance, None
+    else:
+        return False, atm_current_balance, None
+
+def logout_checker(action_param: Optional[str], atm_password: str, atm_current_balance: int) -> Tuple[bool, int, Optional[int]]:
+    return True, atm_current_balance, None
+
+def deposit_checker(action_param: str, atm_password: str, atm_current_balance: int) -> Tuple[bool, int, Optional[int]]:
+    if action_param is not None:
+        amount = int(action_param)
+        return True, atm_current_balance + amount, None
+    return False, atm_current_balance, None
+
+def withdraw_checker(action_param: str, atm_password: str, atm_current_balance: int) -> Tuple[bool, int, Optional[int]]:
+    if action_param is not None:
+        amount = int(action_param)
+        if atm_current_balance >= amount:
+            return True, atm_current_balance - amount, None
+    return False, atm_current_balance, None
+
+def balance_checker(action_param: Optional[str], atm_password: str, atm_current_balance: int) -> Tuple[bool, int, Optional[int]]:
+    return True, atm_current_balance, atm_current_balance
+
+# Implement the transition_table here
+transition_table = {
+    State("unauthorized"): [
+        ("login", login_checker, State("authorized"))
+    ],
+    State("authorized"): [
+        ("logout", logout_checker, State("unauthorized")),
+        ("deposit", deposit_checker, State("authorized")),
+        ("withdraw", withdraw_checker, State("authorized")),
+        ("balance", balance_checker, State("authorized"))
+    ]
+}
+
+# Look for the implementation of the ATM class in the below Tail section
+class ATM:
+    def __init__(self, init_state: State, init_balance: int, password: str, transition_table: Dict):
+        self.state = init_state
+        self._balance = init_balance
+        self._password = password
+        self._transition_table = transition_table
+
+    def next(self, action: Action, param: Optional[str]) -> Tuple[bool, Optional[int]]:
+        try:
+            for transition_action, check, next_state in self._transition_table[self.state]:
+                if action == transition_action:
+                    passed, new_balance, res = check(param, self._password, self._balance)
+                    if passed:
+                        self._balance = new_balance
+                        self.state = next_state
+                        return True, res
+        except KeyError:
+            pass
+        return False, None
+
+if __name__ == "__main__":
+    # Sample usage:
+    input_password = 'hacker' # input()
+    init_balance = 10 # int(input())
+
+    # Set the initial state to "unauthorized"
+    atm = ATM(State("unauthorized"), init_balance, input_password, transition_table)
+
+    inp = ["login hacker","depoist 10"]  #int(input())
+    q=len(inp)
+    for i in inp:
+        # action_input = input().strip().split()
+        action_input=i.split(' ')
+        action_name = action_input[0]
+        action_param = action_input[1] if len(action_input) > 1 else None
+
+        if action_name in ["deposit", "withdraw"]:
+            action_param = int(action_param)
+
+        success, res = atm.next(action_name, action_param)
+        if res is not None:
+            print(f"Success={success} {atm.state} {res}")
+        else:
+            print(f"Success={success} {atm.state}")
 #-----------------------------------------------
 
 
@@ -1869,7 +2175,7 @@ my_list.display()
 
 
 #-----------------------------------------------
-# LONGESTCOMMONPREFIX
+# longestcommonprefix
 def LONGESTCOMMONPREFIX(x) -> str:
     
 
@@ -2104,7 +2410,7 @@ print(isvalid(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
-# PALINDROME
+# palindrome
 def isPalindrome(num) -> bool:
     List=list(str(num))
     if List[0]=='-':
@@ -2344,6 +2650,35 @@ with open("leets_summary.py", "w") as f2:
 with open("leets_summary.py", "r") as f2:
     print(f2.read())
 #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# time_decorator
+from time import time
+import sys
+sys.set_int_max_str_digits(500)
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start=time()
+        print(f"started {func.__name__}")
+        print(f"args: {args}")
+        print(f"kwargs: {kwargs}")
+        result=func(*args, **kwargs)
+        print(f"Total time: {round(time()-start,2)} Seconds")
+        print(f"result: {result}")
+    return wrapper
+
+@timer
+def multiplier(x):
+    result=1
+    for i in range(1,x+1):
+        result*=i
+    return result
+x=10
+
+multiplier(x)
+    #-----------------------------------------------
 
 
 
