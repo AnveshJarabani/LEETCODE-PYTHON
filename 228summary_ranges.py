@@ -1,3 +1,4 @@
+from typing import List
 class Solution:
     def summaryRanges(self, nums: List[int]) -> List[str]:
         if not nums:
@@ -16,3 +17,5 @@ class Solution:
         else:
             result_list.append(f"{start}->{nums[-1]}")
         return result_list
+print(Solution().summaryRanges([0,1,2,4,5,7]))
+
