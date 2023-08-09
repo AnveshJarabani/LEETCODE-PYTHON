@@ -228,6 +228,37 @@ print(maxprofit(ast.literal_eval(input())))
 
 
 #-----------------------------------------------
+# 122_max_profit_II
+"""
+FIND THE LARGEST PROFIT POSSIBLE IN A LIST 
+
+in cases like this, 
+use two pointers, but the key is to move the lp to the current rp 
+because we have already found the max from the past lp to current rp
+so this makes the code efficient.
+
+"""
+from typing import List
+x=[1,2,3]
+for i,val in enumerate(x):
+    x.pop(i)
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        lp, rp, total_profit = 0, 1, 0
+        while rp < len(prices):
+            if prices[rp] > prices[lp]:
+                total_profit += prices[rp] - prices[lp]
+                lp = rp
+            else:
+                lp = rp
+            rp += 1
+        return total_profit
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 125_validpalindrome
 def palindrome(s):
     lst=[i for i in s.lower() if i.isalpha()]
@@ -577,6 +608,33 @@ def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         return
     root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
     return root
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 228summary_ranges
+from typing import List
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        if not nums:
+            return []
+        result_list = []
+        start = nums[0]
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i - 1] + 1:
+                if nums[i - 1] == start:
+                    result_list.append(str(start))
+                else:
+                    result_list.append(f"{start}->{nums[i-1]}")
+                start = nums[i]
+        if start == nums[-1]:
+            result_list.append(str(start))
+        else:
+            result_list.append(f"{start}->{nums[-1]}")
+        return result_list
+print(Solution().summaryRanges([0,1,2,4,5,7]))
+
 #-----------------------------------------------
 
 
@@ -1175,6 +1233,23 @@ print(foursum(nums, target))
 
 
 #-----------------------------------------------
+# 53max_subarray
+from typing import List
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_sum=nums[0]
+        cur_sum=0
+        for i in nums:
+            if cur_sum<0:
+                cur_sum = 0
+            cur_sum +=i
+            max_sum=max(max_sum,cur_sum)
+        return max_sum
+print(Solution().maxSubArray([5,4,-1,7,8]))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 56.merge_intervals
 def merge(intervals):
     intervals.sort()
@@ -1389,6 +1464,78 @@ p2=Person('Becky','talkative',True,r2)
 p1.sit_down()
 p2.sit_down()
 p2.stand_up()#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# classes_polymorphism
+from abc import ABCMeta, abstractmethod
+
+x = [1, 2, 3]
+for i in x[:]:
+    x.append(i + 1)
+    print(x)
+
+
+class Jungle(metaclass=ABCMeta):
+    def __init__(
+        self,
+        name="Unknown",
+    ):
+        self.name = name
+
+    def introduce(self):  # no need to add name here again.
+        print(f"Welcome to the {self.name} Jungle")
+
+    @abstractmethod
+    def scarysound(self):
+        ...
+
+
+class Bungle:
+    def __init__(
+        self,
+        name="Unknown",
+    ):
+        self.name = name
+
+    def introduce(self):
+        print(f"welcome to the {self.name} Bungle")
+
+
+""" 
+This is polymorphism because the method "introduce" is local to two different
+classes but python allows for same method to be used in different classes. 
+"""
+
+amazon = Jungle("Amazon")
+bamazon = Bungle("Bamazon")
+amazon.introduce()
+bamazon.introduce()
+
+
+class RateJungle(Jungle):
+    def __init__(self, name, rating=None):
+        super(RateJungle, self).__init__(name)  # inheriting the constructor of class
+        self.rating = rating
+
+    def printRating(self):
+        print(f"The Jungle rating is {self.rating} with {self.name}")
+
+
+r = RateJungle("Meher", 3)
+r.printRating()
+r.introduce()
+
+
+class Insect(Jungle):
+    def scarysound(self):
+        print("insects don't care about scary sounds")
+
+
+i = Insect()
+i.scarysound()
+#-----------------------------------------------
 
 
 
@@ -2175,7 +2322,7 @@ my_list.display()
 
 
 #-----------------------------------------------
-# longestcommonprefix
+# LONGESTCOMMONPREFIX
 def LONGESTCOMMONPREFIX(x) -> str:
     
 
@@ -2410,7 +2557,7 @@ print(isvalid(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
-# palindrome
+# PALINDROME
 def isPalindrome(num) -> bool:
     List=list(str(num))
     if List[0]=='-':
@@ -2608,6 +2755,71 @@ class Solution:
 
 
 #-----------------------------------------------
+# sandbox
+# Given the list of strings in the Sample Input below, display the Sample Output in the console.
+
+dirs_list= ["home/jack/diary/2023-04-01.txt",
+"home/jack/diary/2023-04-02.txt",
+"home/jack/photos/1.jpg",
+"home/jack/diary/2023-04-03.txt",
+"home/jack/2025-04-03.txt",
+]
+
+# Sample Output
+# - home
+#   - jack
+#     - diary
+#       - 2023-04-01.txt
+#       - 2023-04-02.txt
+#     - photos
+#       - 1.jpg
+
+from typing import Dict,List
+from dataclasses import dataclass,field
+
+@dataclass 
+class directory_node:
+    folder : Dict[str ,'directory_node'] = field(default_factory=dict)
+    files : List[str] = field(default_factory=list)
+    
+    def insert_folder(self,path_list:List[str]) -> None:
+        node = self
+        for folder in path_list:
+            if folder not in node.folder:
+                node.folder[folder]=directory_node()
+            node=node.folder[folder]
+    def insert_file(self,file_path:List[str],file:str) -> None:
+        node=self
+        for folder in file_path:
+            node=node.folder[folder]
+        node.files.append(file)
+    def print_directory(self,node=None,indent=0):
+        if not node:
+            return
+        for folder_name,child_node in node.folder.items():
+            print(f"{'----'*indent}-{folder_name}")
+            for file in child_node.files:
+                print("----"*(indent+1)+f'-{file}')
+            self.print_directory(child_node,indent+1)
+
+root=directory_node()
+
+
+for path in dirs_list:
+    path_list=path.split("/")
+    folder_path=path_list[:-1]
+    file=path_list[-1]
+    root.insert_folder(folder_path)
+    root.insert_file(folder_path,file)
+root.print_directory(root)
+            
+
+
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # string_winner
 def minion_game(string):
     vowels= ['A','E','I','O','U']
@@ -2678,6 +2890,69 @@ def multiplier(x):
 x=10
 
 multiplier(x)
+    #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# trie_class
+from dataclasses import dataclass,field
+from typing import Dict,List
+
+@dataclass
+class directory_node:
+    folder: Dict[str,'directory_node'] = field(default_factory=dict)
+    files: List[str] = field(default_factory=list)
+
+    def insert_folder(self,folder_path:str) -> None:
+        node=self
+        for folder_name in folder_path:
+            if folder_name not in node.folder:
+                node.folder[folder_name]=directory_node()
+            node=node.folder[folder_name]
+    def insert_file(self,folder_path:str,file_name:str) -> None:
+        node=self
+        for folder_name in folder_path:
+            if folder_name not in node.folder:
+                node.folder[folder_name]=directory_node()
+            node=node.folder[folder_name]
+        node.files.append(file_name)
+    def print_directory(self,node=None,indent=0):
+        if not node:
+            return
+        for folder_name,child_node in node.folder.items():
+            print("  "*indent +f"-{folder_name}")
+            self.print_directory(child_node,indent+1)
+            for file_name in child_node.files:
+                print("  "*(indent+1)+f"-{file_name}")
+            
+""" INITIALIZE THE TRIE"""                
+trie=directory_node()
+
+""" PROCESS THE FILE PATHS AND CREATE THE FOLDER STRUCTURE"""
+file_paths = [
+    "/home/jack/diary/2023-04-01.txt",
+    "/home/jack/diary/2023-04-02.txt",
+    "/home/jack/photos/1.jpg",
+    "/home/jack/diary/2023-04-03.txt"
+]
+
+for file_path in file_paths:
+    tokens=file_path.split("/")
+    path_list=tokens[1:-1]
+    file_name=tokens[-1]
+    trie.insert_folder(path_list)
+    trie.insert_file(path_list,file_name)
+trie.print_directory(trie)
+    
+    
+    
+        
+            
+        
+        
+        
+    
     #-----------------------------------------------
 
 
