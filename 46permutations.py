@@ -10,6 +10,7 @@ class Solution:
                 result.append(path)
                 callstack.pop()
                 print(f"result={result}")
+ 
                 print(callstack)
                 return
             for i in range(len(nums)):

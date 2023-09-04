@@ -34,7 +34,7 @@ class node:
             print("  " * (indent) + "-" + name)
             self.print_structure(next_nodes, indent + 1)
             for file in self.files:
-                print(" " * (indent + 1) + "-" + file)
+                print("  " * (indent + 1) + "-" + file)
 
 
 structure = node()
