@@ -1,11 +1,11 @@
 #-----------------------------------------------
 # 101_symmetrictree
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 class Solution:
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         def sym(left,right):
@@ -489,6 +489,31 @@ print(title(input()))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# 19remove_nth_lastnode
+from typing import Optional
+# Definition for singly-linked list.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        holder=ListNode(0,next=head)
+        left=holder
+        right=head
+        while n>0 and right:
+            right=right.next
+            n-=1
+        while right:
+            right=right.next
+            left=left.next
+        left.next=left.next.next
+        return holder.next#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 202happynumber
 class Solution:
     def isHappy(self, n: int) -> bool:
@@ -768,6 +793,38 @@ print(lenghtoflis(input))
 
 
 #-----------------------------------------------
+# 30substring_allwords
+from typing import List
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        word_span=len(words[0])
+        len_substr=word_span*len(words)
+        words_map={i:words.count(i) for i in set(words)}
+        if len_substr>len(s):
+            return []
+        i,res=0,[]
+        while i<(len(s)-len_substr)+1:
+            cur_str=s[i:i+len_substr]
+            p,str_lst=0,[]
+            while p<len(cur_str):
+                str_lst.append(cur_str[p:p+word_span])
+                p+=word_span
+            # for word in words: 
+            #     if word in str_lst:
+            #         str_lst.remove(word)
+            #     else:
+            #         break
+            sub_map={i:str_lst.count(i) for i in set(str_lst)}
+            if sub_map==words_map:
+                res.append(i)
+            i+=1
+        return res
+
+print(Solution().findSubstring(s = "barfoothefoobarman", words = ["foo","bar"]))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 322coinchange
 import ast
 input=ast.literal_eval(input())
@@ -780,6 +837,24 @@ def coinchange(coins,amount):
                 dp[amt]=min(dp[amt],1+dp[amt-coin])
     return dp[amount] if dp[amount]!=amount+1 else -1
 print(coinchange(input,6249))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 32_longest_paranthesis
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        stack,res=[-1],0
+        for i in range(len(s)):
+            if s[i]=='(':
+                stack.append(i)
+            else:
+                stack.pop()
+                if not stack:
+                    stack.append(i)
+                res=max(res,i-stack[-1])
+        return res
+Solution().longestValidParentheses(")))()(()")#-----------------------------------------------
 
 
 
@@ -905,6 +980,25 @@ def threeSumclosest(nums,target):
 nums=list(map(int,input().split(",")))
 target=int(input())
 print(threeSumclosest(nums,target))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 3_longest_substr
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        temp_set=[]
+        max_substr=0
+        for i in s:
+            if i not in temp_set:
+                temp_set.append(i)
+                max_substr=max(max_substr,len(temp_set))
+            else:
+                temp_set=temp_set[temp_set.index(i)+1:]
+                temp_set.append(i)
+        return max_substr
+    
+print(Solution().lengthOfLongestSubstring('aabaab!bb'))#-----------------------------------------------
 
 
 
@@ -1124,6 +1218,59 @@ def island(grid):
 grid=[[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
 
 print(island(grid))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 46permutations
+from typing import List
+
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(nums, path, callstack=[]):
+            callstack.append(path)
+            print(callstack)
+            if not nums:
+                result.append(path)
+                callstack.pop()
+                print(f"result={result}")
+                print(callstack)
+                return
+            for i in range(len(nums)):
+                backtrack(nums[:i] + nums[i + 1 :], path + [nums[i]], callstack)
+
+        result = []
+        backtrack(nums, [])
+        return result
+
+
+print(Solution().permute([1, 2, 3]))
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 47_permutations_2
+from typing import List
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        hash_map={n:nums.count(n) for n in nums}
+        def df():
+            if len(temp)==len(nums):
+                result.append(temp.copy())
+                return
+            for n in hash_map:
+                if hash_map[n]>0:
+                    temp.append(n)
+                    hash_map[n]-=1
+                    df()
+                    hash_map[n]+=1
+                    temp.pop()
+        result,temp=[],[]
+        df()
+        return result
+print(Solution().permuteUnique([1,1,3]))#-----------------------------------------------
 
 
 
@@ -1350,6 +1497,21 @@ def mergetrees(r1, r2):
 
 
 #-----------------------------------------------
+# 62uniquepaths
+import functools
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        @functools.lru_cache(None)
+        def defs(i,j):
+            if i>=m or j>=n: return 0
+            if i==m-1 and j == n-1: return 1
+            return defs(i+1,j)+defs(i,j+1)
+        return defs(0,0)
+print(Solution().uniquePaths(3,7))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 6_zigzag
 def convert(s: str, n: int) -> str:
     if n==1: return s
@@ -1365,6 +1527,140 @@ def convert(s: str, n: int) -> str:
             up=False
     return ''.join([dct[i] for i in dct.keys()])
 print(convert(input(),int(input())))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 74search2dmatrix
+from typing import List
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        m,n=len(matrix),len(matrix[0])
+        for i in range(m):
+            if target>=matrix[i][0] and target<=matrix[i][n-1]:
+                l,r,mid=0,n-1,n+1
+                while l<=r and mid!=1:
+                    mid=l+int((r-l)/2)  
+                    if target==matrix[i][mid]:
+                        return True
+                    elif target<matrix[i][mid]:
+                        r=mid-1
+                    else:
+                        l=mid-1
+                return False
+print(Solution().searchMatrix(matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 75_sortcolors
+from typing import List
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        hash_map={i:nums.count(i) for i in range(3)}
+        j=0
+        for i in range(len(nums)):
+            while hash_map[j]==0:
+                j+=1
+            nums[i]=j
+            hash_map[j]-=1
+
+                
+        return nums
+print(Solution().sortColors(nums=[2,0,2,1,1,0]))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 76_min_window
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if t=='': return ''
+        l,r=0,1
+        lst=[i for i in t]
+        t_map={i:lst.count(i) for i in set(lst)} 
+        t_span=len(t_map)
+        h_map={i:0 for i in t_map}
+        check_span=0
+        while r<len(s):
+            if s[l] in h_map:
+                h_map[s[l]]+=1
+                if h_map[s[l]]>=t_map[s[l]]:
+                    check_span+=1
+            if check_span>=t_span:
+                result=s[l:r+1]
+            if r<len(s): r+=1
+            else: l-=1
+        return result
+            
+print(Solution().minWindow(s = "ADOBECODEBANC", t = "ABC"))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 77combinations
+from typing import List
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        n_lst=[i for i in range(1,n+1)]
+        def dfs(inp_lst,path):
+            if len(path)==k:
+                result.append(path[:])
+                return
+            for i in range(len(inp_lst)):
+                path.append(inp_lst[i])
+                dfs(inp_lst[i+1:],path)
+                path.pop()
+        result=[]
+        dfs(n_lst,[])
+        return result
+print(Solution().combine(n=4,k=2))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 78subsets
+from typing import List
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        def bt(i=0,path=[]):
+            if i>=len(nums):
+                res.append(path[:])
+                return
+            path.append(nums[i])
+            bt(i+1,path)
+            path.pop()
+            bt(i+1,path)
+        bt()
+        return res
+    
+print(Solution().subsets(nums=[1,2,3]))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 80sortyarray_2
+
+from typing import List
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        l,r=0,0
+        while r<len(nums):
+            count=1
+            while r<len(nums)-1 and nums[r]==nums[r+1]:
+                r+=1
+                count+=1
+            for i in range(min(2,count)):
+                nums[l]=nums[r]
+                l+=1
+            r+=1
+        return l
+print(Solution().removeDuplicates(nums = [0,0,1,1,1,1,2,3,3]))
+#-----------------------------------------------
 
 
 
@@ -1819,6 +2115,33 @@ print(queue)#-----------------------------------------------
 
 
 #-----------------------------------------------
+# emr_spark_job
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+import pandas as pd
+
+S3_DATA_SOURCE_PATH = "s3://myawsbucket-ajarabani/PKL/RAW_LBR.PKL"
+S3_DATA_OUTPUT_PATH = "s3://myawsbucket-ajarabani/data-output"
+raw_lbr = pd.read_pickle(S3_DATA_SOURCE_PATH)
+
+
+def main():
+    spark = SparkSession.builder.appName("demoapp").getOrCreate()
+    raw_lbr = spark.createDataFrame(raw_lbr)
+    print(f"Total number of records {raw_lbr.count()}")
+    raw_lbr = raw_lbr.withColumn("HRS/EA", col("HRS_WORKED") / col("OP_QTY"))
+    raw_lbr.select("OP_QTY").show()
+    raw_lbr.write.mode("overwrite").parquet(S3_DATA_OUTPUT_PATH)
+    print(f"Selected data was successfully saved to s3 {S3_DATA_OUTPUT_PATH}")
+
+
+if __name__ == "__main__":
+    main()
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # firststringocurance
 needle=input()
 haystack=input()
@@ -1835,6 +2158,110 @@ result=needle_index(haystack,needle)
 print(result)
     
 #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# folder_prints
+file_paths = [
+    "/home/jack/diary/2023-04-01.txt",
+    "/home/jack/diary/2023-04-02.txt",
+    "/home/jack/photos/1.jpg",
+    "/home/dack/diary/2023-04-03.txt",
+    "/gome/back/biry/xly.txt"
+]
+
+
+class node:
+    def __init__(self, name=None):
+        self.name: str = name
+        self.files: list = []
+        self.folders = {}
+
+    def add_folder(self, path_list):
+        cur_node = self
+        for i in path_list:
+            if i not in cur_node.folders:
+                cur_node.folders[i] = node(i)
+            cur_node = cur_node.folders[i]
+
+    def add_files(self, path_list, file):
+        cur_node = self
+        for i in path_list:
+            if i not in cur_node.folders:
+                cur_node.folders[i] = node(i)
+            cur_node = cur_node.folders[i]
+        cur_node.files.append(file)
+
+    def print_structure(self, cur_node=None, indent=0):
+        if not cur_node:
+            return
+        for name, next_nodes in cur_node.folders.items():
+            print("  " * (indent) + "-" + name)
+            self.print_structure(next_nodes, indent + 1)
+        for file in cur_node.files:
+            print(" " * (indent + 1) + "-" + file)
+
+
+structure = node()
+for i in file_paths:
+    nodes = i.split("/")[1:]
+    files = nodes[-1]
+    folders = nodes[:-1]
+    structure.add_folder(folders)
+    structure.add_files(folders, files)
+structure.print_structure(structure)
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# folder_struct
+file_paths = [
+    "/home/jack/diary/2023-04-01.txt",
+    "/home/jack/diary/2023-04-02.txt",
+    "/home/jack/photos/1.jpg",
+    "/home/dack/diary/2023-04-03.txt",
+    "/gome/back/biry/xly.txt"
+]
+
+from typing import List
+class Node:
+    def __init__(self,name=None,folders={},files=[]):
+        self.name:str=name
+        self.folders:dict[str,Node]={}
+        self.files:List[str] = []
+    def add_folders(self,path_list:List[str]):
+        cur_node=self
+        for folder in path_list:
+            if folder not in cur_node.folders:
+                cur_node.folders[folder]=Node()
+            cur_node=cur_node.folders[folder]
+    def add_files(self,folder_list,file:str):
+        cur_node=self
+        for folder in folder_list:
+            if folder not in cur_node.folders:
+                cur_node.folders[folder]=Node()
+            cur_node=cur_node.folders[folder]
+        cur_node.files.append(file)
+    def print_tree(self,cur_node,indent=0):
+        if not cur_node:
+            return
+        for folder_name,folder in cur_node.folders.items():
+            print(' '*indent+f'-{folder_name}')
+            self.print_tree(folder,indent+1)
+        for file in cur_node.files:
+            print(' '*(indent+1)+f'-{file}')
+tree=Node()
+for i in file_paths:
+    folders=i.split('/')[1:]
+    file=folders.pop()
+    tree.add_folders(folders)
+    tree.add_files(folders,file)
+tree.print_tree(tree)
+
+    
+    #-----------------------------------------------
 
 
 
@@ -1971,6 +2398,12 @@ if __name__ == "__main__":
         else:
             print(f"Success={success} {atm.state}")
 #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# hackerrank_python1
+stea#-----------------------------------------------
 
 
 
@@ -2503,6 +2936,24 @@ print(solution().missingnum(nums=nums))#----------------------------------------
 
 
 #-----------------------------------------------
+# node_viewer
+from pyvis import network
+network1= network.Network(height=500,width=1000,notebook=True,directed=False)
+network1.add_nodes(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
+network1. add_edges([ ('A','B'),('A','C'),('B','D'),('B','E'),('C','F'),('C','G'),('F','H'),('F','I')])
+network1.show_buttons(filter_=['physics'])
+
+network1.show('test.html')
+
+network_llist= network.Network(height=500,width=1000,notebook=True,directed=False)
+network_llist.add_nodes([1,2,3,4,5])
+network_llist.add_edges([(1,2),(2,3),(3,4),(4,5)])
+network_llist.show_buttons(filter_=['physics'])
+network_llist.show('test1.html')#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # nth-uglynumber
 n=int(input())
 class Solution:
@@ -2756,66 +3207,9 @@ class Solution:
 
 #-----------------------------------------------
 # sandbox
-# Given the list of strings in the Sample Input below, display the Sample Output in the console.
-
-dirs_list= ["home/jack/diary/2023-04-01.txt",
-"home/jack/diary/2023-04-02.txt",
-"home/jack/photos/1.jpg",
-"home/jack/diary/2023-04-03.txt",
-"home/jack/2025-04-03.txt",
-]
-
-# Sample Output
-# - home
-#   - jack
-#     - diary
-#       - 2023-04-01.txt
-#       - 2023-04-02.txt
-#     - photos
-#       - 1.jpg
-
-from typing import Dict,List
-from dataclasses import dataclass,field
-
-@dataclass 
-class directory_node:
-    folder : Dict[str ,'directory_node'] = field(default_factory=dict)
-    files : List[str] = field(default_factory=list)
-    
-    def insert_folder(self,path_list:List[str]) -> None:
-        node = self
-        for folder in path_list:
-            if folder not in node.folder:
-                node.folder[folder]=directory_node()
-            node=node.folder[folder]
-    def insert_file(self,file_path:List[str],file:str) -> None:
-        node=self
-        for folder in file_path:
-            node=node.folder[folder]
-        node.files.append(file)
-    def print_directory(self,node=None,indent=0):
-        if not node:
-            return
-        for folder_name,child_node in node.folder.items():
-            print(f"{'----'*indent}-{folder_name}")
-            for file in child_node.files:
-                print("----"*(indent+1)+f'-{file}')
-            self.print_directory(child_node,indent+1)
-
-root=directory_node()
-
-
-for path in dirs_list:
-    path_list=path.split("/")
-    folder_path=path_list[:-1]
-    file=path_list[-1]
-    root.insert_folder(folder_path)
-    root.insert_file(folder_path,file)
-root.print_directory(root)
-            
-
-
-#-----------------------------------------------
+lst=[1,2,1,3]
+dct={1:'a',2:'b'}
+print([dct.keys()])#-----------------------------------------------
 
 
 

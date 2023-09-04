@@ -2,7 +2,8 @@ file_paths = [
     "/home/jack/diary/2023-04-01.txt",
     "/home/jack/diary/2023-04-02.txt",
     "/home/jack/photos/1.jpg",
-    "/home/jack/diary/2023-04-03.txt",
+    "/home/dack/diary/2023-04-03.txt",
+    "/gome/back/biry/xly.txt"
 ]
 
 
@@ -29,12 +30,12 @@ class node:
 
     def print_structure(self, cur_node=None, indent=0):
         if not cur_node:
-            return None
+            return
         for name, next_nodes in cur_node.folders.items():
             print("  " * (indent) + "-" + name)
             self.print_structure(next_nodes, indent + 1)
-            for file in self.files:
-                print("  " * (indent + 1) + "-" + file)
+        for file in cur_node.files:
+            print(" " * (indent + 1) + "-" + file)
 
 
 structure = node()
