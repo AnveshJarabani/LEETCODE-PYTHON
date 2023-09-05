@@ -1,3 +1,6 @@
+from typing import List, Optional
+
+
 # merge k sorted --
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
@@ -43,3 +46,79 @@ class Solution:
         result = []
         back_tracker()
         return result
+
+
+# 53 maximum_subarray
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        res, cur = nums[0], 0
+        for i in nums:
+            if cur < 0:
+                cur = 0
+            cur += i
+            res = max(res, cur)
+        return res
+
+
+# 54 spiral matrix
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        result = []
+        while matrix:
+            result.extend(matrix.pop(0))
+            if matrix:
+                for each_row in matrix:
+                    if each_row:
+                        result.append(each_row.pop(-1))
+            if matrix:
+                last_row = matrix.pop(-1)
+                result.extend(last_row[::-1])
+            if matrix:
+                for each_row in matrix[::-1]:
+                    if each_row:
+                        result.append(each_row.pop(0))
+        return result
+
+
+# 62 unique paths :
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        @cache
+        def bt(down=1, right=1):
+            if down > m or right > n:
+                return 0
+            elif down == m and right == n:
+                return 1
+            return bt(down + 1, right) + bt(down, right + 1)
+
+        return bt()
+
+
+# 11 container with most water
+class Solution:
+    def maxArea(self, lst: List[int]) -> int:
+        l, r = 0, len(lst) - 1
+        vol = 0
+        while l < r:
+            vol = max(vol, min(lst[r], lst[l]) * (r - l))
+            if lst[l] < lst[r]:
+                l += 1
+            else:
+                r -= 1
+        return vol
+
+
+# 63_ UNIQUE PATHS 2
+class Solution:
+    def uniquePathsWithObstacles(self, lst: List[List[int]]) -> int:
+        depth, width = len(lst), len(lst[0])
+
+        @cache
+        def bt(down=1, right=1):
+            if (down > depth or right > width) or lst[down - 1][right - 1]:
+                return 0
+            elif down == depth and right == width:
+                return 1
+            return bt(down + 1, right) + bt(down, right + 1)
+
+        return bt()
