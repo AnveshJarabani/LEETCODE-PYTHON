@@ -122,3 +122,62 @@ class Solution:
             return bt(down + 1, right) + bt(down, right + 1)
 
         return bt()
+
+
+# 79 word search
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        n, m = len(board), len(board[0])
+        path = set()
+
+        def rec(x, y, i):
+            if i == len(word):
+                return True
+            if (
+                x < 0
+                or y < 0
+                or x > n - 1
+                or y > m - 1
+                or board[x][y] != word[i]
+                or (x, y) in path
+            ):
+                return False
+            path.add((x, y))
+            res = (
+                rec(x + 1, y, i + 1)
+                or rec(x - 1, y, i + 1)
+                or rec(x, y + 1, i + 1)
+                or rec(x, y - 1, i + 1)
+            )
+            # path.remove((x,y))
+            return res
+
+        for x in range(n):
+            for y in range(m):
+                if rec(x, y, 0):
+                    return True
+        return False
+
+
+# 98.validate binary sarch tree
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        prev = float("-inf")
+
+        def bt(node):
+            nonlocal prev
+            if not node:
+                return True
+            if not (bt(node.left) and prev < node.val):
+                return False
+            prev = node.val
+            return bt(node.right)
+
+        return bt(root)
