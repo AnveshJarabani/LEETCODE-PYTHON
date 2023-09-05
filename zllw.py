@@ -213,3 +213,65 @@ class Solution:
                     lgth += 1
                 result = max(lgth, result)
         return result
+
+
+# 238 product except self
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        prefix = 1
+        res = [1] * len(nums)
+        for i in range(len(nums)):
+            res[i] = prefix
+            prefix *= nums[i]
+        postfix = 1
+        for i in range(len(nums) - 1, -1, -1):
+            res[i] *= postfix
+            postfix *= nums[i]
+        return res
+
+
+# 240 matrix 2d search
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        l, m = len(matrix), len(matrix[0])
+        r, c = m - 1, 0
+        while r >= 0 and c < m:
+            if matrix[r][c] == target:
+                return True
+            if matrix[r][c] > target:
+                r -= 1
+            else:
+                c += 1
+        return False
+
+
+# return first unique character
+
+
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        char_set = {}
+        for i in s:
+            if i in char_set:
+                char_set[i] = False
+            else:
+                char_set[i] = True
+        for i, val in enumerate(s):
+            if char_set[val]:
+                return i
+        return -1
+
+
+# 739. Daily Temperatures
+
+
+class Solution:
+    def dailyTemperatures(self, t: List[int]) -> List[int]:
+        result = [0] * len(t)
+        stack = []  # keyparr[i,val]
+        for i, val in enumerate(t):
+            while stack and val > stack[-1][1]:
+                stack_i, stack_val = stack.pop()
+                result[stack_i] = i - stack_i
+            stack.append([i, val])
+        return result
