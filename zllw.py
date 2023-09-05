@@ -200,3 +200,16 @@ class Solution:
 
         dfs(root, targetSum, [])
         return res
+
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        numset = set(nums)
+        result = 0
+        for i in nums:
+            if i - 1 not in numset:
+                lgth = 0
+                while i + lgth in numset:
+                    lgth += 1
+                result = max(lgth, result)
+        return result
