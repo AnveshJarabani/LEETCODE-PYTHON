@@ -181,3 +181,22 @@ class Solution:
             return bt(node.right)
 
         return bt(root)
+
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        res = []
+
+        def dfs(node, val, path):
+            if not node:
+                return
+            val -= node.val
+            path.append(node.val)
+            if not node.right and not node.left and val == 0:
+                res.append(path[:])
+            dfs(node.left, val, path)
+            dfs(node.right, val, path)
+            path.pop()
+
+        dfs(root, targetSum, [])
+        return res
