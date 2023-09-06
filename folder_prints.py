@@ -6,7 +6,14 @@ file_paths = [
     "/gome/back/biry/xly.txt"
 ]
 
-
+file_paths = [
+    "/a/b/e",
+    "/a/b/h",
+    "/a/b/i"
+    "/a/c/f",
+    "/a/d/g",
+    "/a/d/g/l"
+    ]
 class node:
     def __init__(self, name=None):
         self.name: str = name

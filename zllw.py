@@ -197,6 +197,7 @@ class Solution:
             dfs(node.left, val, path)
             dfs(node.right, val, path)
             path.pop()
+        
 
         dfs(root, targetSum, [])
         return res
