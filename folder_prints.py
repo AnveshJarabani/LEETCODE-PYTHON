@@ -14,6 +14,7 @@ file_paths = [
     "/a/d/g",
     "/a/d/g/l"
     ]
+file_paths.sort
 class node:
     def __init__(self, name=None):
         self.name: str = name
