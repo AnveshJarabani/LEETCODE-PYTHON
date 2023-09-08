@@ -10,26 +10,25 @@ def timeit(func):
         return result
     return wrapper
 class Solution:
-    @timeit
-    def k_freq_by_count(self,arr,k=100):
+    def freq_mapper(self,arr):
         count_map={}
         for i in arr:
             count_map[i]=1+count_map.get(i,0)
+        return count_map
+    @timeit
+    def k_freq_by_count(self,arr,k=100):
+        count_map=self.freq_mapper(arr)
         result=list(set(arr))
         result.sort(key=lambda x:count_map[x],reverse=True)
         return 
     @timeit
     def k_freq_by_count_heap_max(self,arr,k=100):
-        count_map={}
-        for i in arr:
-            count_map[i]=1+count_map.get(i,0)
+        count_map=self.freq_mapper(arr)
         heapq.nlargest(k,count_map.keys(),count_map.get)
         return 
     @timeit
     def k_freq_by_count_heap_min(self,arr,k=100):
-        count_map={}
-        for i in arr:
-            count_map[i]=1+count_map.get(i,0)
+        count_map=self.freq_mapper(arr)
         min_heap=[]
         for num,count in count_map.items():
             heapq.heappush(min_heap,(count,num))
@@ -39,9 +38,7 @@ class Solution:
         return 
     @timeit
     def k_freq_bucket_sort(self,arr,k=100):
-        count_map={}
-        for i in arr:
-            count_map[i]=1+count_map.get(i,0)
+        count_map=self.freq_mapper(arr)
         bucket_map={i:[] for i in range(len(arr)+1)}
         for num,count in count_map.items():
             bucket_map[count].append(num)

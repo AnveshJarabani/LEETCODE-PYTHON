@@ -1,11 +1,11 @@
 #-----------------------------------------------
 # 101_symmetrictree
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         def sym(left,right):
@@ -485,6 +485,27 @@ def title(cl):
         res+=(lst.index(n)+1)*26**(i)
     return res
 print(title(input()))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 181rotate_arry
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        k=k%len(nums)
+        def flip(nums,l,r):
+            while l<r:
+                nums[l],nums[r]=nums[r],nums[l]
+                l+=1
+                r-=1
+            return
+        flip(nums,0,len(nums)-1)
+        flip(nums,0,k-1)
+        flip(nums,k,len(nums)-1)
+#-----------------------------------------------
 
 
 
@@ -1072,6 +1093,26 @@ print(canPartition([1,5,11,5]))#-----------------------------------------------
 
 
 #-----------------------------------------------
+# 42trap_rainwater
+class Solution:
+    def trap(self, ht: List[int]) -> int:
+        l, r = 0, len(ht) - 1
+        l_max, r_max, res = ht[l], ht[r], 0
+        while l < r:
+            if ht[l] < ht[r]:
+                l += 1
+                l_max = max(ht[l], l_max)
+                res += l_max - ht[l]
+            else:
+                r -= 1
+                r_max = max(ht[r], r_max)
+                res += r_max - ht[r]
+        return res
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 435.non-overlaps
 def overlaps(intervals):
     count = 0
@@ -1235,6 +1276,7 @@ class Solution:
                 result.append(path)
                 callstack.pop()
                 print(f"result={result}")
+ 
                 print(callstack)
                 return
             for i in range(len(nums)):
@@ -1661,6 +1703,108 @@ class Solution:
         return l
 print(Solution().removeDuplicates(nums = [0,0,1,1,1,1,2,3,3]))
 #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 82removeduplicates
+from typing import Optional
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+   
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy=ListNode(next=head)
+        l=dummy
+        r=l.next
+        while r:
+            if r and r.next and r.val==r.next.val:
+                while r.next and r.val==r.next.val:
+                    r=r.next
+                l.next=r.next
+            else: l=l.next
+            r=r.next
+        return dummy.next
+ar=[1,2,3,3,4,4,5]
+cur_node=ListNode(ar[0])
+head=cur_node
+for i,val in enumerate(ar[1:]):
+    node=ListNode(val)
+    cur_node.next=node
+    cur_node=node
+x=Solution().deleteDuplicates(head)
+while x:
+    print(x.val)
+    x=x.next
+...
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 86partitionlist
+from typing import Optional
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        dummy=ListNode(next=head)
+        cur_node=dummy.next
+        less_head=None
+        more_head=None
+        while cur_node.next:
+            if cur_node.val<x:
+                if not less_head:
+                    less_head=ListNode(val=cur_node.val)
+                    les_cur=less_head
+                    continue
+                les_cur.next=ListNode(val=cur_node.val)
+                les_cur=les_cur.next
+            else:
+                if not more_head:
+                    more_head=ListNode(val=cur_node.val)
+                    more_cur=more_head
+                    continue
+                more_cur.next=ListNode(val=cur_node.val)
+                more_cur=more_cur.next
+            cur_node=cur_node.next
+        les_cur.next=more_head
+        return less_head
+
+lst = [1,4,3,2,5,2]
+x = 3
+head=ListNode(val=lst[0])
+cur_node=head
+for i in lst[1:]:
+    cur_node.next=ListNode(i)
+    cur_node=cur_node.next
+Solution().partition(head,x)#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 97interleavingstrings
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        span1,span2,span3=len(s1),len(s2),len(s3)
+        if (span1+span2)!=span3: return False
+        p1,p2,p3=0,0,0
+        while p1<span1 and p2<span2 and p3<span3:
+            if s1[p1]==s3[p3]:
+                p1+=1
+                p3+=1
+            elif s2[p2]==s3[p3]:
+                p2+=1
+                p3+=1
+            else:
+                return False
+        return s3[p3:]==s1[p1:]+s2[p2:]
+print(Solution().isInterleave(s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"))#-----------------------------------------------
 
 
 
@@ -2171,7 +2315,15 @@ file_paths = [
     "/gome/back/biry/xly.txt"
 ]
 
-
+file_paths = [
+    "/a/b/e",
+    "/a/b/h",
+    "/a/b/i"
+    "/a/c/f",
+    "/a/d/g",
+    "/a/d/g/l"
+    ]
+file_paths.sort
 class node:
     def __init__(self, name=None):
         self.name: str = name
@@ -2568,6 +2720,67 @@ def isSubsequence(self, s: str, t: str) -> bool:
     return True
 print(isSubsequence())
 #-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# k_frequentelements
+from time import time
+import numpy as np
+import heapq
+arr=np.random.randint(0,1000,10000000)
+def timeit(func):
+    def wrapper(*args, **kwargs):
+        start=time()
+        result = func(*args, **kwargs)
+        print(f'{round(time()-start,2)} seconds - {func.__name__}') 
+        return result
+    return wrapper
+class Solution:
+    def freq_mapper(self,arr):
+        count_map={}
+        for i in arr:
+            count_map[i]=1+count_map.get(i,0)
+        return count_map
+    @timeit
+    def k_freq_by_count(self,arr,k=100):
+        count_map=self.freq_mapper(arr)
+        result=list(set(arr))
+        result.sort(key=lambda x:count_map[x],reverse=True)
+        return 
+    @timeit
+    def k_freq_by_count_heap_max(self,arr,k=100):
+        count_map=self.freq_mapper(arr)
+        heapq.nlargest(k,count_map.keys(),count_map.get)
+        return 
+    @timeit
+    def k_freq_by_count_heap_min(self,arr,k=100):
+        count_map=self.freq_mapper(arr)
+        min_heap=[]
+        for num,count in count_map.items():
+            heapq.heappush(min_heap,(count,num))
+            if len(min_heap)>k:
+                heapq.heappop(min_heap)
+        result = [i for _,i in min_heap]
+        return 
+    @timeit
+    def k_freq_bucket_sort(self,arr,k=100):
+        count_map=self.freq_mapper(arr)
+        bucket_map={i:[] for i in range(len(arr)+1)}
+        for num,count in count_map.items():
+            bucket_map[count].append(num)
+        result=[]
+        for i in range(len(arr),0,-1):
+            for num in  bucket_map[i]:
+                result.append(num)
+                if len(result)==k:
+                    return
+        return
+
+Solution().k_freq_by_count(arr)
+Solution().k_freq_by_count_heap_max(arr)
+Solution().k_freq_by_count_heap_min(arr)
+Solution().k_freq_bucket_sort(arr)#-----------------------------------------------
 
 
 
@@ -3214,6 +3427,34 @@ print([dct.keys()])#-----------------------------------------------
 
 
 #-----------------------------------------------
+# sherlock_anagrams
+from collections import Counter
+#
+# Complete the 'sherlockAndAnagrams' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts STRING s as parameter.
+#
+
+def sherlockAndAnagrams(s):
+    # Write your code here
+    counter_map=Counter(s)
+    for i in range(2,len(s)):
+        sub_str=s[0:i]
+        counter_map[''.join(sorted(sub_str))]+=1
+        for j in range(1,len(s)):
+            if i+j<=len(s):
+                counter_map[''.join(sorted(s[j:j+i]))]+=1
+    result=0
+    for val in counter_map.values():
+        result+=val*(val-1)//2
+    return result
+
+print(sherlockAndAnagrams('aacbbc'))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # string_winner
 def minion_game(string):
     vowels= ['A','E','I','O','U']
@@ -3480,6 +3721,290 @@ print(validip('255.23.12.278'))
 print(validip('255.23.12.-2'))
 print(validip('255.23.12.2.12'))
 print(validip('255.23.12. a'))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# zllw
+from typing import List, Optional
+
+
+# merge k sorted --
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if not lists:
+            return
+
+        def merge(lst1, lst2):
+            dummy = ListNode()
+            cur_node = dummy
+            while lst1 and lst2:
+                if lst1.val < lst2.val:
+                    cur_node.next = lst1
+                    lst1, cur_node = lst1.next, cur_node.next
+                else:
+                    cur_node.next = lst2
+                    lst2, cur_node = lst2.next, cur_node.next
+            if lst1:
+                cur_node.next = lst1
+            else:
+                cur_node.next = lst2
+            return dummy.next
+
+        result = lists[0]
+        for i in lists[1:]:
+            result = merge(result, i)
+        return result
+
+
+# combination sum
+class Solution:
+    def combinationSum(self, lst: List[int], target: int) -> List[List[int]]:
+        def back_tracker(i=0, cur=[], sum=0):
+            if sum == target:
+                result.append(cur[:])
+                return
+            elif sum > target or i >= len(lst):
+                return
+            cur.append(lst[i])
+            back_tracker(i, cur, sum + lst[i])
+            cur.pop()
+            back_tracker(i + 1, cur, sum)
+
+        result = []
+        back_tracker()
+        return result
+
+
+# 53 maximum_subarray
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        res, cur = nums[0], 0
+        for i in nums:
+            if cur < 0:
+                cur = 0
+            cur += i
+            res = max(res, cur)
+        return res
+
+
+# 54 spiral matrix
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        result = []
+        while matrix:
+            result.extend(matrix.pop(0))
+            if matrix:
+                for each_row in matrix:
+                    if each_row:
+                        result.append(each_row.pop(-1))
+            if matrix:
+                last_row = matrix.pop(-1)
+                result.extend(last_row[::-1])
+            if matrix:
+                for each_row in matrix[::-1]:
+                    if each_row:
+                        result.append(each_row.pop(0))
+        return result
+
+
+# 62 unique paths :
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        @cache
+        def bt(down=1, right=1):
+            if down > m or right > n:
+                return 0
+            elif down == m and right == n:
+                return 1
+            return bt(down + 1, right) + bt(down, right + 1)
+
+        return bt()
+
+
+# 11 container with most water
+class Solution:
+    def maxArea(self, lst: List[int]) -> int:
+        l, r = 0, len(lst) - 1
+        vol = 0
+        while l < r:
+            vol = max(vol, min(lst[r], lst[l]) * (r - l))
+            if lst[l] < lst[r]:
+                l += 1
+            else:
+                r -= 1
+        return vol
+
+
+# 63_ UNIQUE PATHS 2
+class Solution:
+    def uniquePathsWithObstacles(self, lst: List[List[int]]) -> int:
+        depth, width = len(lst), len(lst[0])
+
+        @cache
+        def bt(down=1, right=1):
+            if (down > depth or right > width) or lst[down - 1][right - 1]:
+                return 0
+            elif down == depth and right == width:
+                return 1
+            return bt(down + 1, right) + bt(down, right + 1)
+
+        return bt()
+
+
+# 79 word search
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        n, m = len(board), len(board[0])
+        path = set()
+
+        def rec(x, y, i):
+            if i == len(word):
+                return True
+            if (
+                x < 0
+                or y < 0
+                or x > n - 1
+                or y > m - 1
+                or board[x][y] != word[i]
+                or (x, y) in path
+            ):
+                return False
+            path.add((x, y))
+            res = (
+                rec(x + 1, y, i + 1)
+                or rec(x - 1, y, i + 1)
+                or rec(x, y + 1, i + 1)
+                or rec(x, y - 1, i + 1)
+            )
+            # path.remove((x,y))
+            return res
+
+        for x in range(n):
+            for y in range(m):
+                if rec(x, y, 0):
+                    return True
+        return False
+
+
+# 98.validate binary sarch tree
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        prev = float("-inf")
+
+        def bt(node):
+            nonlocal prev
+            if not node:
+                return True
+            if not (bt(node.left) and prev < node.val):
+                return False
+            prev = node.val
+            return bt(node.right)
+
+        return bt(root)
+
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        res = []
+
+        def dfs(node, val, path):
+            if not node:
+                return
+            val -= node.val
+            path.append(node.val)
+            if not node.right and not node.left and val == 0:
+                res.append(path[:])
+            dfs(node.left, val, path)
+            dfs(node.right, val, path)
+            path.pop()
+        
+
+        dfs(root, targetSum, [])
+        return res
+
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        numset = set(nums)
+        result = 0
+        for i in nums:
+            if i - 1 not in numset:
+                lgth = 0
+                while i + lgth in numset:
+                    lgth += 1
+                result = max(lgth, result)
+        return result
+
+
+# 238 product except self
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        prefix = 1
+        res = [1] * len(nums)
+        for i in range(len(nums)):
+            res[i] = prefix
+            prefix *= nums[i]
+        postfix = 1
+        for i in range(len(nums) - 1, -1, -1):
+            res[i] *= postfix
+            postfix *= nums[i]
+        return res
+
+
+# 240 matrix 2d search
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        l, m = len(matrix), len(matrix[0])
+        r, c = m - 1, 0
+        while r >= 0 and c < m:
+            if matrix[r][c] == target:
+                return True
+            if matrix[r][c] > target:
+                r -= 1
+            else:
+                c += 1
+        return False
+
+
+# return first unique character
+
+
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        char_set = {}
+        for i in s:
+            if i in char_set:
+                char_set[i] = False
+            else:
+                char_set[i] = True
+        for i, val in enumerate(s):
+            if char_set[val]:
+                return i
+        return -1
+
+
+# 739. Daily Temperatures
+
+
+class Solution:
+    def dailyTemperatures(self, t: List[int]) -> List[int]:
+        result = [0] * len(t)
+        stack = []  # keyparr[i,val]
+        for i, val in enumerate(t):
+            while stack and val > stack[-1][1]:
+                stack_i, stack_val = stack.pop()
+                result[stack_i] = i - stack_i
+            stack.append([i, val])
+        return result
+#-----------------------------------------------
 
 
 
