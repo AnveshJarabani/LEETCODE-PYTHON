@@ -880,6 +880,44 @@ Solution().longestValidParentheses(")))()(()")#---------------------------------
 
 
 #-----------------------------------------------
+# 377combination_sum
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        dp = {}
+        dp[0] = 1
+        for total in range(1, target + 1):
+            dp[total] = 0
+            for n in nums:
+                dp[total] += dp.get(total - n, 0)
+        return dp[total]
+
+
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        memo = {}
+
+        def helper(n):
+            if n in memo:
+                return memo[n]
+            if n == 0:
+                return 1
+            if n < nums[0]:
+                return 0
+            count = 0
+            for num in nums:
+                if n - num < 0:
+                    break
+                count += helper(n - num)
+            memo[n] = count
+            return count
+
+        return helper(target)
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
 # 39_combinationsum
 def combinationsum(lst, target):
     result = []
@@ -1417,6 +1455,74 @@ print(foursum(nums, target))
 #                         for k in dict(list(HT.items())[inj:]):
 #                             if (i*2+j+k)==result:
 #                                 result.append([i,i,j,k])
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 51_N_queens
+from typing import List
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res=[]
+        board=[['.']*n for _ in range(n)]
+        col_set,diag_up,diag_down=set(),set(),set()
+        def bt(row):
+            if row==n:
+                cpy=["".join(rw) for rw in board]
+                print(cpy)
+                res.append(cpy)
+                return 
+            print(board)
+            for col in range(n):
+                if col in col_set or row+col in diag_up or row-col in diag_down:
+                    continue
+                col_set.add(col)
+                diag_up.add(row+col)
+                diag_down.add(row-col)
+                board[row][col]='Q'
+
+                bt(row+1)
+                
+                col_set.remove(col)
+                diag_up.remove(row+col)
+                diag_down.remove(row-col)
+                board[row][col]='.'
+        bt(0)
+        return res
+print(Solution().solveNQueens(4))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# 52.N-queen2
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        col_set = set()
+        diag_up, diag_dn = set(), set()
+        res = 0
+
+        def bt(row):
+            if row == n:
+                nonlocal res
+                res += 1
+                return
+            for col in range(n):
+                if col in col_set or (row - col) in diag_up or (row + col) in diag_dn:
+                    continue
+                col_set.add(col)
+                diag_up.add(row - col)
+                diag_dn.add(row + col)
+                bt(row + 1)
+                col_set.remove(col)
+                diag_up.remove(row - col)
+                diag_dn.remove(row + col)
+
+        bt(0)
+        return res
+
+
+print(Solution().totalNQueens(4))
 #-----------------------------------------------
 
 
@@ -2968,7 +3074,7 @@ my_list.display()
 
 
 #-----------------------------------------------
-# LONGESTCOMMONPREFIX
+# longestcommonprefix
 def LONGESTCOMMONPREFIX(x) -> str:
     
 
@@ -3221,7 +3327,7 @@ print(isvalid(x))#-----------------------------------------------
 
 
 #-----------------------------------------------
-# PALINDROME
+# palindrome
 def isPalindrome(num) -> bool:
     List=list(str(num))
     if List[0]=='-':
@@ -3286,6 +3392,173 @@ def plusone(digits):
     result=str(int(val)+1)
     return [int(i) for i in result]
 print(plusone(digits))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# pramp
+def calc_drone_min_energy(route):
+    if len(route) == 1:
+        return 0
+    z = []
+    # O(n)
+    for i in route:
+        z.append(i[2])
+
+    kWh = 0
+    min_egy = float("inf")
+    # O(n)
+    for i in range(1, len(z)):
+        kWh += z[i - 1] - z[i]
+        min_egy = min(min_egy, kWh)
+    return -min_egy if min_egy < 0 else 0
+
+
+def absSort(arr):
+    arr.sort(key=lambda x: (abs(x),-x))
+    for r in range(1, len(arr)):
+        if arr[r - 1] > arr[r] and arr[r - 1] + arr[r] == 0:
+            arr[r - 1], arr[r] = arr[r], arr[r - 1]
+    return arr
+
+
+arr = [2, -7, -2, -2, 0]
+print(absSort(arr))
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# pramp2
+def get_shortest_unique_substring(arr, str):
+  arr_map={i:1 for i in arr}
+  sub_map={}
+  have,want=len(arr),0
+  min_l=float('inf')
+  l=0
+  for r in range(len(str)):
+    char=str[r]
+    sub_map[char]=1+sub_map.get(char,0)
+    if char in arr_map and arr_map[char]==sub_map[char]:
+      want+=1
+    while have==want:
+      if r-l+1<min_l:
+        sub_str=[l,r]
+        min_l=r-l+1
+      sub_map[str[l]]-=1
+      l+=1
+      if char in arr_map and arr_map[char]>sub_map[char]:
+        have-=1
+  return str[sub_str[0]:sub_str[1]+1] if min_l != float('inf') else ''
+  
+arr = ['x','y','z']
+str = "xyyzyzyx"
+print(get_shortest_unique_substring(arr,str))
+
+#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# pramp_bst_key
+##########################################################
+# CODE INSTRUCTIONS:                                     #
+# 1) The method findLargestSmallerKey you're asked       #
+#    to implement is located at line 30.                 #
+# 2) Use the helper code below to implement it.          #
+# 3) In a nutshell, the helper code allows you to        #
+#    to build a Binary Search Tree.                      #
+# 4) Jump to line 71 to see an example for how the       #
+#    helper code is used to test findLargestSmallerKey.  #
+##########################################################
+
+
+# A node
+class Node:
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+        self.parent = None
+
+
+# A binary search tree
+class BinarySearchTree:
+    # Constructor to create a new BST
+    def __init__(self):
+        self.root = None
+
+    def find_largest_smaller_key(self, num):
+        cur_node = self.root
+        res = [-float("inf")]
+
+        def in_trav(cur_node):
+            print(cur_node.key)
+            if not cur_node:
+                return
+            if cur_node.key < num:
+                res[0] = max(res[0], cur_node.key)
+                in_trav(cur_node.right)
+            else:
+                in_trav(cur_node.left)
+
+        in_trav(cur_node)
+        return res[0] if res[0] != -float("inf") else -1
+
+    # Given a binary search tree and a number, inserts a
+    # new node with the given number in the correct place
+    # in the tree. Returns the new root pointer which the
+    # caller should then use(the standard trick to avoid
+    # using reference parameters)
+    def insert(self, key):
+        # 1) If tree is empty, create the root
+        if self.root is None:
+            self.root = Node(key)
+            return
+
+        # 2) Otherwise, create a node with the key
+        #    and traverse down the tree to find where to
+        #    to insert the new node
+        currentNode = self.root
+        newNode = Node(key)
+
+        while currentNode is not None:
+            if key < currentNode.key:
+                if currentNode.left is None:
+                    currentNode.left = newNode
+                    newNode.parent = currentNode
+                    break
+                else:
+                    currentNode = currentNode.left
+            else:
+                if currentNode.right is None:
+                    currentNode.right = newNode
+                    newNode.parent = currentNode
+                    break
+                else:
+                    currentNode = currentNode.right
+
+
+#########################################
+# Driver program to test above function #
+#########################################
+
+bst = BinarySearchTree()
+
+# Create the tree given in the above diagram
+bst.insert(20)
+bst.insert(9)
+bst.insert(25)
+bst.insert(5)
+bst.insert(12)
+bst.insert(11)
+bst.insert(14)
+
+result = bst.find_largest_smaller_key(17)
+
+print("Largest smaller number is %d " % (result))
+#-----------------------------------------------
 
 
 
@@ -3451,6 +3724,46 @@ def sherlockAndAnagrams(s):
     return result
 
 print(sherlockAndAnagrams('aacbbc'))#-----------------------------------------------
+
+
+
+#-----------------------------------------------
+# smallest_substringwindow
+arr = ["x", "y", "z"]
+str = "xyyzyzyx"
+
+
+class Solution:
+    def min_window(self, arr, str):
+        if not str:
+            return ""
+        count_map = {}
+        for i in arr:
+            count_map[i] = 1 + count_map.get(i, 0)
+        s_map = {}
+        have, need = 0, len(count_map)
+        l = 0
+        res_len = float("infinity")
+        for r in range(len(str)):
+            char = str[r]
+            s_map[char] = 1 + count_map(char, 0)
+            if char in count_map and s_map[char] == count_map[char]:
+                have += 1
+            while have == need:
+                if (r - l + 1) < res_len:
+                    res = [l, r]
+                    res_len = r - l + 1
+
+                s_map[str[l]] -= 1
+                if str[l] in count_map and s_map[char] < count_map[char]:
+                    have = -1
+                l += 1
+
+        return str[res[0], res[1] + 1] if res_len != float("infinity") else ""
+
+
+print(Solution().min_window(arr, str))
+#-----------------------------------------------
 
 
 

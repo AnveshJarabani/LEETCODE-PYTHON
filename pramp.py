@@ -16,7 +16,7 @@ def calc_drone_min_energy(route):
 
 
 def absSort(arr):
-    arr.sort(key=lambda x: abs(x))
+    arr.sort(key=lambda x: (abs(x),-x))
     for r in range(1, len(arr)):
         if arr[r - 1] > arr[r] and arr[r - 1] + arr[r] == 0:
             arr[r - 1], arr[r] = arr[r], arr[r - 1]
