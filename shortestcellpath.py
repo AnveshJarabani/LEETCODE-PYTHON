@@ -54,3 +54,49 @@ def shortestCellPath(grid, sr, sc, tr, tc):
 
     bt(sr, sc, 0, set())
     return result[0] if result[0] != float("inf") else -1
+
+
+from collections import deque
+
+
+# BFS ----------------------------------------------------------------
+def getNeighbor(row, col, grid):
+    directions = [[1, 0], [-1, 0], [0, -1], [0, 1]]
+    neighbors = []
+    for direction in directions:
+        new_row = row + direction[0]
+        new_col = col + direction[1]
+        if (
+            new_row < 0
+            or new_row >= len(grid)
+            or new_col < 0
+            or new_col >= len(grid[0])
+            or grid[new_row][new_col] != 1
+        ):
+            continue
+        else:
+            neighbors.append((new_row, new_col))
+
+    return neighbors
+
+
+def shortestCellPath(grid, sr, sc, tr, tc):
+    queue = deque([(sr, sc)])
+    visited = set((sr, sc))
+
+    target = (tr, tc)
+
+    shortest_path = 0
+    while len(queue) > 0:
+        size_of_queue = len(queue)
+        for i in range(size_of_queue):
+            row, col = queue.popleft()
+            neighbors = getNeighbor(row, col, grid)
+            for neighbor in neighbors:
+                if not neighbor in visited:
+                    if neighbor == target:
+                        return shortest_path + 1
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+        shortest_path += 1
+    return -1

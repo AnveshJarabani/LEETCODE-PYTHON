@@ -1,4 +1,6 @@
-def find(arr, num):
+def find(arr, num,offset):
+    if len(arr)==1 and arr[0]==num:
+      return offset
     span = len(arr)
     l, r = 0, span - 1
     while l < r:
@@ -6,7 +8,7 @@ def find(arr, num):
         if arr[mid] < num:
             l = mid
         elif arr[mid] > num:
-            r = mid
+            r = mid+offset
         else:
             return arr[mid]
     return -1
@@ -25,13 +27,13 @@ def shifted_arr_search(shiftArr, num):
         elif shiftArr[l] < shiftArr[mid]:
             l = mid
     if num >= shiftArr[0] and num <= shiftArr[offset - 1]:
-        res = find(shiftArr[:offset], num)
+        res = find(shiftArr[:offset], num,0)
     elif num >= shiftArr[offset] and num <= shiftArr[span - 1]:
-        res = find(shiftArr[offset:], num)
+        res = find(shiftArr[offset:], num,offset)
     return res
 
 
-shiftArr = [9, 12, 17, 2, 4, 5]
+shiftArr = [1,2]
 num = 2
 print(shifted_arr_search(shiftArr, num))
 """
