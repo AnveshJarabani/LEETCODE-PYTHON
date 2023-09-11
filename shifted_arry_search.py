@@ -1,36 +1,26 @@
-def find(arr, num,offset):
-    if len(arr)==1 and arr[0]==num:
-      return offset
-    span = len(arr)
+def shifted_arr_search(nums, target):
+    span = len(nums)
     l, r = 0, span - 1
-    while l < r:
+    while l <= r:
         mid = (l + r) // 2
-        if arr[mid] < num:
-            l = mid
-        elif arr[mid] > num:
-            r = mid+offset
+        if nums[mid] > nums[-1]: # this has to be compared with nums[-1] because we are trying to find pivot only
+            l = mid+1
         else:
-            return arr[mid]
-    return -1
+            r = mid-1
+    def bst(l,r,target):
+        while l <= r:
+            mid = (l + r) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                r = mid-1
+            else:
+                l=mid+1
+        return -1
 
-
-def shifted_arr_search(shiftArr, num):
-    span = len(shiftArr)
-    l, r = 0, span - 1
-    while l < r:
-        if l == (r - 1):
-            offset = r
-            break
-        mid = (l + r) // 2
-        if shiftArr[mid] < shiftArr[r]:
-            r = mid
-        elif shiftArr[l] < shiftArr[mid]:
-            l = mid
-    if num >= shiftArr[0] and num <= shiftArr[offset - 1]:
-        res = find(shiftArr[:offset], num,0)
-    elif num >= shiftArr[offset] and num <= shiftArr[span - 1]:
-        res = find(shiftArr[offset:], num,offset)
-    return res
+    #Binary search over the elements on the pivot element's left
+    if (answer:= bst(0,l-1,target))!=-1: return answer
+    return bst(l,span-1,target)
 
 
 shiftArr = [1,2]
