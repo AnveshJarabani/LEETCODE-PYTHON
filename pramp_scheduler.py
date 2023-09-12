@@ -2,17 +2,14 @@ def meeting_planner(slotsA, slotsB, dur):
     p1, p2 = 0, 0
     spanA, spanB = len(slotsA) - 1, len(slotsB) - 1
     while p1 < spanA and p2 < spanB:
-        if (
-            abs(slotsA[p1][1] - slotsB[p2][0]) >= dur
-            and abs(slotsB[p2][1] - slotsA[p1][0]) >= dur
-        ):
-            max_start = max(slotsA[p1][0], slotsB[p2][0])
-            print(slotsA[p1][0], slotsB[p2][0])
-            return [max_start, max_start + dur]
-        elif slotsA[p1][1] > slotsB[p2][1]:
-            p2 += 1
-        else:
+        start_time = max(slotsA[p1][0], slotsB[p2][0])
+        end_time = min(slotsA[p1][1], slotsB[p2][1])
+        if (end_time - start_time) >= dur:
+            return [start_time, start_time + dur]
+        if slotsA[p1][1] < slotsB[p2][1]:
             p1 += 1
+        else:
+            p2 += 1
     return []
 
 
@@ -21,6 +18,11 @@ slotsB = [[0, 15], [60, 70]]
 dur = 8
 print(meeting_planner(slotsA, slotsB, dur))
 """
+--------------
+    -----------------
+    or 
+    --------------
+----------
 Time Planner
 Implement a function meetingPlanner that given the availability, slotsA and slotsB, of two people and a meeting duration dur, returns the earliest time slot that works for both of them and is of duration dur. If there is no common time slot that satisfies the duration requirement, return an empty array.
 
