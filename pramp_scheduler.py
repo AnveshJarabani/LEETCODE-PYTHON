@@ -1,12 +1,12 @@
 def meeting_planner(slotsA, slotsB, dur):
     p1, p2 = 0, 0
     spanA, spanB = len(slotsA) - 1, len(slotsB) - 1
-    while p1 < spanA and p2 < spanB:
-        start_time = max(slotsA[p1][0], slotsB[p2][0])
-        end_time = min(slotsA[p1][1], slotsB[p2][1])
-        if (end_time - start_time) >= dur:
-            return [start_time, start_time + dur]
-        if slotsA[p1][1] < slotsB[p2][1]:
+    while p1 <= spanA and p2 <= spanB:
+        start=max(slotsA[p1][0],slotsB[p2][0])
+        end=min(slotsA[p1][1],slotsB[p2][1])
+        if end-start>=dur:
+            return [start,start+dur]
+        if slotsA[p1][1] < slotsB[p2][0]:
             p1 += 1
         else:
             p2 += 1
