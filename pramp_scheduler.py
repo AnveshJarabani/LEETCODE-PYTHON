@@ -6,7 +6,7 @@ def meeting_planner(slotsA, slotsB, dur):
         end=min(slotsA[p1][1],slotsB[p2][1])
         if end-start>=dur:
             return [start,start+dur]
-        if slotsA[p1][1] < slotsB[p2][0]:
+        if slotsA[p1][1] < slotsB[p2][1]:
             p1 += 1
         else:
             p2 += 1
@@ -18,12 +18,12 @@ slotsB = [[0, 15], [60, 70]]
 dur = 8
 print(meeting_planner(slotsA, slotsB, dur))
 """
---------------
-    -----------------
-    or 
-    --------------
-----------
-Time Planner
+p1 - [10,50]
+p2 - [0,15] 
+ - move pointer p1 beccuase 15 (end of p2)>10(start of p1)
+p1-[60,120] 
+p2-[0,15]
+move pointer p2 becuase 120(end of p1)>15(end of p2)
 Implement a function meetingPlanner that given the availability, slotsA and slotsB, of two people and a meeting duration dur, returns the earliest time slot that works for both of them and is of duration dur. If there is no common time slot that satisfies the duration requirement, return an empty array.
 
 Time is given in a Unix format called Epoch, which is a nonnegative integer holding the number of seconds that have elapsed since 00:00:00 UTC, Thursday, 1 January 1970.
