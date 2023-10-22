@@ -26,3 +26,8 @@ def find_grants_cap(arr, bgt):
             cap = float(bgt) / float(span - (i + 1))
         else:
             return cap
+
+
+ar = [2, 100, 50, 120, 1000]
+bg = 190
+print(find_grants_cap(ar, bg))
