@@ -123,7 +123,7 @@
           "style": "diamond",
           "powerline_symbol": "\ue0b2",
           "leading_diamond": "\ue0b2",
-          "template": "<foreground>\ue200</><#76EEC6>\ue200</></><#66CDAA>\ue200 \uf68c {{ .Name }} ",
+          "template": "<foreground>\ue200</><#76EEC6>\ue200</></><#66CDAA>\ue200</> \uf68c {{ .Name }} ",
           "type": "shell"
         },
         {
