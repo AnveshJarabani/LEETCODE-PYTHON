@@ -99,7 +99,7 @@
         },
         {
           "background": "#15d535",
-          "background_templates": ["{{ if gt .Code 0 }}#f1184c{{ end }}"],
+          "background_templates": ["{{ if eq .Code 0 }}#f1184c{{ end }}"],
           "foreground": "#000000",
           "properties": {
             "always_enabled": true
