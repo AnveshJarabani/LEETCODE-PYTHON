@@ -106,7 +106,7 @@
           },
           "style": "diamond",
           "template": " \ue23a {{ if eq .Code 0 }}\uf00c{{ else }}\uf00d{{ end }} <#66CDAA>\ue285</><#76EEC6>\ue285</><foreground>\ue285</>",
-          // "trailing_diamond": "\ue0b0",
+          "trailing_diamond": "\ue0b0",
           "type": "text"
         }
       ],
