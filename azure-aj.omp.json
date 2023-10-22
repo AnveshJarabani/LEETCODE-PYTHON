@@ -105,7 +105,7 @@
             "always_enabled": true
           },
           "style": "diamond",
-          "template": " \ue23a {{ if eq .Code 0 }}\uf00d {{ reason .Code }}{{ else }}\uf42e{{ end }} <#66CDAA>\u276f</><#76EEC6>\u276f</><foreground>\u276f</>",
+          "template": " \ue23a {{ if eq .Code 0 }}\uf00d{{ reason .Code }}{{ else }}\uf42e{{ end }} <#66CDAA>\u276f</><#76EEC6>\u276f</><foreground>\u276f</>",
           "trailing_diamond": "\ue0b0",
           "type": "text"
         }
