@@ -22,6 +22,8 @@ def sudoku_solve(board):
     square = defaultdict(set)
     for i in range(9):
         for j in range(9):
+            if board[i][j] == ".":
+                continue
             if (
                 board[i][j] in row[i]
                 or board[i][j] in col[j]
