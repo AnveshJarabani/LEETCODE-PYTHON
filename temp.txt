@@ -1,0 +1,1 @@
+// "template": " \ue23a {{ if gt .Code 0 }}\uf00d {{ .Meaning }}{{ else }}\uf42e{{ end }} <#66CDAA>\u276f</><#76EEC6>\u276f</><foreground>\u276f</>",
