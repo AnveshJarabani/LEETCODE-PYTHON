@@ -10,7 +10,7 @@
           "leading_diamond": "\ue0c2 ",
           "trailing_diamond": "\ue0b0",
           "properties": {
-            "style": "full"
+            "style": "agnoster_full"
           },
           "style": "diamond",
           "template": "  \uf07c <i>{{ .Path }} ",
