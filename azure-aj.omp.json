@@ -67,9 +67,9 @@
           "foreground": "#ffffff",
           "leading_diamond": "\ue0c2 ",
           "properties": {
-            "macos": " \uf179 ",
-            "ubuntu": " \uf31b ",
-            "windows": " \ue62a "
+            "macos": "\uf179 ",
+            "ubuntu": "\uf31b ",
+            "windows": "\ue62a "
           },
           "style": "diamond",
           "template": " {{.Icon}}",
