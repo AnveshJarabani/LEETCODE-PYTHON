@@ -72,7 +72,7 @@
             "windows": " \ue62a "
           },
           "style": "diamond",
-          "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}}",
+          "template": " {{ if .WSL }}{{ end }}{{.Icon}}",
           "type": "os"
         },
         {
