@@ -15,7 +15,7 @@
             "folder_separator_icon": " \ue0b0"
           },
           "style": "diamond",
-          "template": "  \uf07c <i>{{ .Path }} ",
+          "template": " <i>{{ .Path }} \uf07c ",
           "type": "path"
         }
       ],
