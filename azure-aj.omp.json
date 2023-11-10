@@ -12,7 +12,7 @@
           "properties": {
             "style": "unique",
             "home_icon": "\uf015 ",
-            "folder_separator_icon": " \ue0b0",
+            "folder_separator_icon": " \ue0bc",
             "mapped_locations": {
               "C:\\Users\\AnveshJarabani\\Downloads\\*": "\uf0ed "
             }
@@ -68,11 +68,11 @@
           "leading_diamond": "\ue0c2 ",
           "properties": {
             "macos": " \uf179 ",
-            "ubuntu": " \uf31b ",
+            "ubuntu": " \uf31c ",
             "windows": " \ue62a "
           },
           "style": "diamond",
-          "template": " {{ if .WSL }}{{ end }}{{.Icon}}",
+          "template": " {{.Icon}}",
           "type": "os"
         },
         {
