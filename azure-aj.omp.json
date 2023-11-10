@@ -10,7 +10,9 @@
           "leading_diamond": "\ue0c2 ",
           "trailing_diamond": "\ue0b0",
           "properties": {
-            "style": "agnoster_full"
+            "style": "unique",
+            "home_icon": "\uf015 ",
+            "folder_separator_icon": " \ue0b0"
           },
           "style": "diamond",
           "template": "  \uf07c <i>{{ .Path }} ",
