@@ -12,10 +12,13 @@
           "properties": {
             "style": "unique",
             "home_icon": "\uf015 ",
-            "folder_separator_icon": " \ue0b0"
+            "folder_separator_icon": " \ue0b0",
+            "mapped_locations": {
+              "C:\\Users\\AnveshJarabani\\Downloads\\*": "\uf0ed "
+            }
           },
           "style": "diamond",
-          "template": " <i>{{ .Path }} \uf07c ",
+          "template": " {{ .Path }} \uf07c ",
           "type": "path"
         }
       ],
