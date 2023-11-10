@@ -12,7 +12,7 @@
           "properties": {
             "style": "unique",
             "home_icon": "\uf015 ",
-            "folder_separator_icon": "\uf142",
+             "folder_separator_icon": "\u23fd",
             "mapped_locations": {
               "C:\\Users\\AnveshJarabani\\Downloads\\*": "\uf0ed "
             }
